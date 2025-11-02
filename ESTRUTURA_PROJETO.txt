@@ -1,0 +1,73 @@
+.
+├── ESTRUTURA_PROJETO.txt
+├── GUIA_EXECUCAO.md
+├── README.md
+├── REGISTRO_DESENVOLVIMENTO.md
+├── backend
+│   ├── config
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── db.sqlite3
+│   ├── manage.py
+│   ├── populate_data.py
+│   ├── requirements.txt
+│   ├── tasks
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── filters.py
+│   │   ├── migrations
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   └── users
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── migrations
+│       ├── models.py
+│       ├── serializers.py
+│       ├── tests.py
+│       ├── urls.py
+│       └── views.py
+└── frontend
+    ├── App.tsx
+    ├── Gemfile
+    ├── README.md
+    ├── __tests__
+    │   └── App.test.tsx
+    ├── android
+    │   ├── app
+    │   ├── build.gradle
+    │   ├── gradle
+    │   ├── gradle.properties
+    │   ├── gradlew
+    │   ├── gradlew.bat
+    │   └── settings.gradle
+    ├── app.json
+    ├── babel.config.js
+    ├── index.js
+    ├── ios
+    │   ├── Podfile
+    │   ├── TodoApp
+    │   └── TodoApp.xcodeproj
+    ├── jest.config.js
+    ├── metro.config.js
+    ├── package.json
+    ├── pnpm-lock.yaml
+    ├── src
+    │   ├── components
+    │   ├── contexts
+    │   ├── navigation
+    │   ├── screens
+    │   ├── services
+    │   ├── types
+    │   └── utils
+    └── tsconfig.json
+
+22 directories, 48 files
