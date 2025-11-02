@@ -42,7 +42,8 @@ export const authAPI = {
 export const tasksAPI = {
   getTasks: async (): Promise<Task[]> => {
     const { data } = await api.get('/tasks/');
-    return data;
+    // Se a API retornar paginação, extrair o array results
+    return Array.isArray(data) ? data : (data.results || []);
   },
   
   createTask: async (task: Partial<Task>): Promise<Task> => {

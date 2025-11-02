@@ -7,11 +7,18 @@ class TaskSerializer(serializers.ModelSerializer):
     Serializer para o modelo Task.
     """
     user = serializers.ReadOnlyField(source='user.username')
+    completed = serializers.SerializerMethodField()
 
     class Meta:
         model = Task
         fields = ['id', 'user', 'title', 'description', 'status', 'created_at', 'updated_at', 'completed_at']
         read_only_fields = ['id', 'user', 'created_at', 'updated_at', 'completed_at']
+
+    def get_completed(self, obj):
+        """
+        Retorna True se o status for 'completed', False caso contrário.
+        """
+        return obj.status == 'completed'
 
     def validate_title(self, value):
         """

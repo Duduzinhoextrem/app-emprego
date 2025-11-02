@@ -1,27 +1,35 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 
-export default function RegisterScreen({ navigation }: any) {
+export default function RegisterScreen() {
+  const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
 
   async function handleRegister() {
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !passwordConfirm) {
       Alert.alert('Erro', 'Preencha os campos obrigatórios');
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
 
     setLoading(true);
     try {
-      await register({ username, email, password, first_name: firstName, last_name: lastName });
+      await register({ username, email, password, password_confirm: passwordConfirm, first_name: firstName, last_name: lastName });
     } catch (error: any) {
-      Alert.alert('Erro', error.response?.data?.detail || 'Erro ao cadastrar');
+      Alert.alert('Erro', error.response?.data?.detail || error.response?.data?.password?.[0] || 'Erro ao cadastrar');
     } finally {
       setLoading(false);
     }
@@ -53,6 +61,14 @@ export default function RegisterScreen({ navigation }: any) {
         placeholder="Senha *"
         value={password}
         onChangeText={setPassword}
+        secureTextEntry
+      />
+      
+      <TextInput
+        style={styles.input}
+        placeholder="Confirmar Senha *"
+        value={passwordConfirm}
+        onChangeText={setPasswordConfirm}
         secureTextEntry
       />
       

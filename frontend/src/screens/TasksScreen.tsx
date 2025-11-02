@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import { tasksAPI } from '../services/api';
 import type { Task } from '../types';
 
-export default function TasksScreen({ navigation }: any) {
+export default function TasksScreen() {
+  const navigation = useNavigation();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const { user, logout } = useAuth();
