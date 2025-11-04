@@ -1,8 +1,24 @@
 """
 Script para popular o banco de dados com dados de exemplo.
+
+Este script cria:
+- Um superusuário (admin/admin123)
+- Usuários de teste (joao, maria)
+- Tarefas de exemplo para cada usuário
+
+Útil para:
+- Testes rápidos
+- Demonstrações
+- Desenvolvimento sem precisar criar dados manualmente
+
+Execute com: python populate_data.py
 """
 import os
+import sys
 import django
+
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
@@ -15,11 +31,18 @@ User = get_user_model()
 
 def populate():
     """
-    Popula o banco de dados com usuários e tarefas de exemplo.
+    Cria dados de exemplo no banco de dados.
+    
+    O que é criado:
+    1. Superusuário 'admin' (pode acessar o admin do Django)
+    2. Usuários de teste: 'joao' e 'maria'
+    3. Várias tarefas de exemplo para cada usuário
+    
+    Se os dados já existirem, apenas informa e não duplica.
     """
     print("Iniciando população de dados...")
+    print()
     
-    # Criar superusuário
     if not User.objects.filter(username='admin').exists():
         admin = User.objects.create_superuser(
             username='admin',
@@ -28,12 +51,14 @@ def populate():
             first_name='Admin',
             last_name='User'
         )
-        print(f"✓ Superusuário criado: {admin.username}")
+        print(f"[OK] Superusuario criado: {admin.username}")
     else:
         admin = User.objects.get(username='admin')
-        print(f"✓ Superusuário já existe: {admin.username}")
+        print(f"[OK] Superusuario ja existe: {admin.username}")
     
-    # Criar usuários de teste
+    print()
+
+
     users_data = [
         {
             'username': 'joao',
@@ -56,13 +81,13 @@ def populate():
         if not User.objects.filter(username=user_data['username']).exists():
             user = User.objects.create_user(**user_data)
             created_users.append(user)
-            print(f"✓ Usuário criado: {user.username}")
+            print(f"[OK] Usuario criado: {user.username}")
         else:
             user = User.objects.get(username=user_data['username'])
             created_users.append(user)
-            print(f"✓ Usuário já existe: {user.username}")
+            print(f"[OK] Usuario ja existe: {user.username}")
     
-    # Criar tarefas de exemplo para cada usuário
+    print()
     tasks_data = {
         'joao': [
             {'title': 'Estudar Django REST Framework', 'description': 'Completar tutorial oficial do DRF', 'status': 'pending'},
@@ -83,10 +108,11 @@ def populate():
         if user.username in tasks_data:
             for task_data in tasks_data[user.username]:
                 if not Task.objects.filter(user=user, title=task_data['title']).exists():
-                    task = Task.objects.create(user=user, **task_data)
-                    print(f"  ✓ Tarefa criada para {user.username}: {task.title}")
+                    assigned_to = user
+                    task = Task.objects.create(user=user, assigned_to=assigned_to, **task_data)
+                    print(f"  [OK] Tarefa criada para {user.username}: {task.title}")
                 else:
-                    print(f"  ✓ Tarefa já existe para {user.username}: {task_data['title']}")
+                    print(f"  [OK] Tarefa ja existe para {user.username}: {task_data['title']}")
     
     print("\n" + "="*50)
     print("População de dados concluída!")

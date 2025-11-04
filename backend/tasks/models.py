@@ -5,8 +5,14 @@ from django.core.validators import MaxLengthValidator
 
 class Task(models.Model):
     """
-    Modelo para representar uma tarefa (to-do item).
-    Cada tarefa pertence a um usuário específico.
+    Modelo que representa uma tarefa no sistema.
+    
+    Cada tarefa tem:
+    - Um criador (quem criou a tarefa)
+    - Um usuário designado (quem vai fazer a tarefa)
+    - Título e descrição
+    - Status (pendente ou concluída)
+    - Datas de criação, atualização e conclusão
     """
     STATUS_CHOICES = [
         ('pending', 'Pendente'),
@@ -16,8 +22,15 @@ class Task(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='tasks',
-        verbose_name='Usuário'
+        related_name='created_tasks',
+        verbose_name='Criador'
+    )
+    assigned_to = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='assigned_tasks',
+        verbose_name='Usuário Designado',
+        help_text='Usuário responsável por executar a tarefa'
     )
     title = models.CharField(
         max_length=200,
@@ -47,7 +60,8 @@ class Task(models.Model):
         ordering = ['-created_at']
         indexes = [
             models.Index(fields=['user', 'status']),
-            models.Index(fields=['user', 'created_at']),
+            models.Index(fields=['assigned_to', 'status']),
+            models.Index(fields=['created_at']),
         ]
 
     def __str__(self):
@@ -55,7 +69,7 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Sobrescreve o método save para atualizar completed_at automaticamente.
+        Atualiza automaticamente a data de conclusão quando o status muda.
         """
         from django.utils import timezone
         if self.status == 'completed' and not self.completed_at:
