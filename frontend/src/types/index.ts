@@ -4,6 +4,8 @@ export interface User {
   email: string;
   first_name?: string;
   last_name?: string;
+  is_staff?: boolean;
+  is_superuser?: boolean;
 }
 
 export interface Task {
@@ -13,7 +15,9 @@ export interface Task {
   completed: boolean;
   created_at: string;
   updated_at: string;
-  user: number;
+  user?: string | number; // Username ou ID do criador da tarefa
+  assigned_to: number; // ID do usuário designado para fazer a tarefa
+  assigned_to_username?: string; // Nome do usuário designado (para exibição)
 }
 
 export interface LoginCredentials {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ export default function RegisterScreen() {
   const [lastName, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
+  const { colors } = useTheme();
 
   async function handleRegister() {
     if (!username || !email || !password || !passwordConfirm) {
@@ -36,20 +38,22 @@ export default function RegisterScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Criar Conta</Text>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]} contentContainerStyle={styles.content}>
+      <Text style={[styles.title, { color: colors.text }]}>Criar Conta</Text>
       
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.text }]}
         placeholder="Usuário *"
+        placeholderTextColor={colors.textMuted}
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
       />
       
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.text }]}
         placeholder="Email *"
+        placeholderTextColor={colors.textMuted}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -57,47 +61,51 @@ export default function RegisterScreen() {
       />
       
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.text }]}
         placeholder="Senha *"
+        placeholderTextColor={colors.textMuted}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.text }]}
         placeholder="Confirmar Senha *"
+        placeholderTextColor={colors.textMuted}
         value={passwordConfirm}
         onChangeText={setPasswordConfirm}
         secureTextEntry
       />
       
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.text }]}
         placeholder="Nome"
+        placeholderTextColor={colors.textMuted}
         value={firstName}
         onChangeText={setFirstName}
       />
       
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.inputBackground, borderColor: colors.inputBorder, color: colors.text }]}
         placeholder="Sobrenome"
+        placeholderTextColor={colors.textMuted}
         value={lastName}
         onChangeText={setLastName}
       />
       
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button, { backgroundColor: colors.primary }]}
         onPress={handleRegister}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>
+        <Text style={[styles.buttonText, { color: colors.primaryText }]}>
           {loading ? 'Cadastrando...' : 'Cadastrar'}
         </Text>
       </TouchableOpacity>
       
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.link}>Já tem conta? Faça login</Text>
+        <Text style={[styles.link, { color: colors.primary }]}>Já tem conta? Faça login</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -106,7 +114,6 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   content: {
     padding: 20,
@@ -118,29 +125,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 40,
     marginTop: 40,
-    color: '#333',
   },
   input: {
-    backgroundColor: '#fff',
     padding: 15,
     borderRadius: 8,
     marginBottom: 15,
     fontSize: 16,
+    borderWidth: 1,
   },
   button: {
-    backgroundColor: '#007AFF',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
   link: {
-    color: '#007AFF',
     textAlign: 'center',
     marginTop: 20,
     fontSize: 14,

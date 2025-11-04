@@ -22,14 +22,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   async function loadStoredData() {
+    /**
+     * Carrega os dados do usuário ao abrir o app.
+     * 
+     * Se existe um token salvo, tenta buscar o perfil do usuário.
+     * Se o token estiver inválido/expirado, limpa os tokens e volta para login.
+     */
     try {
       const token = await AsyncStorage.getItem('accessToken');
       if (token) {
+        // Se tem token, busca os dados do usuário
         const userData = await authAPI.getProfile();
         setUser(userData);
       }
-    } catch (error) {
-      console.log('Error loading stored data:', error);
+    } catch (error: any) {
+      // Se deu erro de autenticação (401 ou 400 com HTML), limpa os tokens
+      // Isso força o usuário a fazer login novamente
+      if (error.response?.status === 401 || 
+          (error.response?.status === 400 && 
+           typeof error.response?.data === 'string' && 
+           error.response.data.includes('<!DOCTYPE html>'))) {
+        await AsyncStorage.removeItem('accessToken');
+        await AsyncStorage.removeItem('refreshToken');
+      }
+      // Só registra erros inesperados (não de autenticação)
+      if (error.response?.status !== 401 && error.response?.status !== 400) {
+        console.log('Erro ao carregar dados salvos:', error);
+      }
     } finally {
       setLoading(false);
     }
