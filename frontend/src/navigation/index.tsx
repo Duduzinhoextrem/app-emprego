@@ -4,10 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../contexts/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import RequestPasswordResetScreen from '../screens/RequestPasswordResetScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import TasksScreen from '../screens/TasksScreen';
 import NewTaskScreen from '../screens/NewTaskScreen';
+import EditTaskScreen from '../screens/EditTaskScreen';
+import UsersScreen from '../screens/UsersScreen';
+import type { RootStackParamList } from '../types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Navigation() {
   const { user, loading } = useAuth();
@@ -30,6 +35,16 @@ export default function Navigation() {
             component={NewTaskScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="EditTask"
+            component={EditTaskScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Users"
+            component={UsersScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator>
@@ -41,6 +56,16 @@ export default function Navigation() {
           <Stack.Screen
             name="Register"
             component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RequestPasswordReset"
+            component={RequestPasswordResetScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ResetPassword"
+            component={ResetPasswordScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
