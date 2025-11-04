@@ -1,10 +1,15 @@
 """
-WSGI config for config project.
+Configuração WSGI do projeto Django.
 
-It exposes the WSGI callable as a module-level variable named ``application``.
+WSGI (Web Server Gateway Interface) é o padrão usado para servir aplicações Django
+em servidores web tradicionais como Apache, Nginx (com Gunicorn), etc.
 
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
+Em produção, geralmente usado com:
+- Gunicorn
+- uWSGI
+- mod_wsgi (Apache)
+
+Documentação: https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
 import os

@@ -4,8 +4,17 @@ from .models import Task
 
 class TaskFilter(django_filters.FilterSet):
     """
-    Filtros para tarefas.
-    Permite filtrar por status e por data de criação.
+    Define quais filtros podem ser aplicados na listagem de tarefas.
+    
+    Filtros disponíveis:
+    - status: pendente ou concluída
+    - created_at: data exata de criação (formato: YYYY-MM-DD)
+    - created_at_gte: tarefas criadas a partir desta data
+    - created_at_lte: tarefas criadas até esta data
+    
+    Exemplos de uso:
+    - /api/tasks/?status=pending
+    - /api/tasks/?created_at_gte=2024-01-01&created_at_lte=2024-12-31
     """
     status = django_filters.ChoiceFilter(choices=Task.STATUS_CHOICES)
     created_at = django_filters.DateFilter(field_name='created_at', lookup_expr='date')

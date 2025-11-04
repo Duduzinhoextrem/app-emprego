@@ -33,11 +33,13 @@ class TaskAPITestCase(TestCase):
         # Criar tarefas de teste
         self.task1 = Task.objects.create(
             user=self.user1,
+            assigned_to=self.user1,
             title='Tarefa 1 do Usuário 1',
             description='Descrição da tarefa 1'
         )
         self.task2 = Task.objects.create(
             user=self.user2,
+            assigned_to=self.user2,
             title='Tarefa 1 do Usuário 2',
             description='Descrição da tarefa 2'
         )
@@ -60,7 +62,8 @@ class TaskAPITestCase(TestCase):
         self.client.force_authenticate(user=self.user1)
         data = {
             'title': 'Nova Tarefa',
-            'description': 'Descrição da nova tarefa'
+            'description': 'Descrição da nova tarefa',
+            'assigned_to': self.user1.id
         }
         response = self.client.post('/api/tasks/', data)
         
@@ -126,6 +129,7 @@ class TaskAPITestCase(TestCase):
         # Criar mais uma tarefa concluída
         Task.objects.create(
             user=self.user1,
+            assigned_to=self.user1,
             title='Tarefa Concluída',
             status='completed'
         )

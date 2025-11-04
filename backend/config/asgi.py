@@ -1,10 +1,15 @@
 """
-ASGI config for config project.
+Configuração ASGI do projeto Django.
 
-It exposes the ASGI callable as a module-level variable named ``application``.
+ASGI (Asynchronous Server Gateway Interface) é usado para aplicações assíncronas
+como WebSockets ou servidores assíncronos (ex: Daphne, Uvicorn).
 
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
+Em produção, pode ser usado com servidores como:
+- Daphne
+- Uvicorn
+- Hypercorn
+
+Documentação: https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
 """
 
 import os

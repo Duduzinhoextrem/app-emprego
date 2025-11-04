@@ -1,8 +1,13 @@
+/**
+ * Arquivo de entrada do app React Native (Expo).
+ * 
+ * Registra o componente principal (App) no sistema Expo.
+ * Funciona tanto no Expo Go quanto em builds nativos.
+ */
 import { registerRootComponent } from 'expo';
 
 import App from './App';
 
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
+// Registra o componente principal no sistema
+// Isso permite que o Expo Go ou build nativo encontrem o app
 registerRootComponent(App);
